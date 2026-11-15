@@ -32,7 +32,8 @@ python3 conta/nas_scan.py --root /path/to/archive --out /tmp/scan
 python3 examples/count_archive.py /tmp/scan > totals.json
 ```
 
-No dependencies beyond Python 3.9 or later.
+No dependencies beyond Python 3.10 or later. Tests: `make verify` (GitHub Actions runs it on every push, on
+Python 3.10, 3.13 and 3.14).
 
 ## What is not here, and why
 

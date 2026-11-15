@@ -1,0 +1,30 @@
+name: verify
+# The referee: runs on push only, so the commit in verify-result.json is the pushed commit (a pull_request run would
+# check out a merge commit that exists on no branch).
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: make verify
+        env:
+          PYTHON: python
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verify-result-py${{ matrix.python }}
+          path: |
+            verify-result.json
+            dist/*.tar
